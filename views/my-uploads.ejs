@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Uploaded Files</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="bg-light text-dark">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="/home">
+      <img src="https://cdn.prod.website-files.com/6737568a4ac417efeb387e5a/67448912e0f7ecdc890b0051_6703e3aac1d647d3ef458241_Google_Drive_Logo.svg" alt="Logo" width="32" height="32" class="me-2">
+      <span class="fw-bold text-primary fs-5">Drive Clone</span>
+    </a>
+
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <div class="d-flex gap-2">
+        <a href="/home" class="btn btn-outline-primary d-flex align-items-center gap-1">
+          <i class="bi bi-house-door-fill"></i> <span class="d-none d-sm-inline">Home</span>
+        </a>
+        <a href="/my-uploads" class="btn btn-outline-secondary d-flex align-items-center gap-1">
+          <i class="bi bi-folder2-open"></i> <span class="d-none d-sm-inline">My Uploads</span>
+        </a>
+        <button id="darkModeToggle" class="btn btn-outline-dark d-flex align-items-center gap-1" type="button">
+          <i class="bi bi-moon"></i> <span class="d-none d-sm-inline">Dark</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Uploads Section -->
+<div class="container py-5">
+  <h2 class="mb-4 text-center">Your Uploaded Documents</h2>
+  <div class="row g-4 justify-content-center">
+    <% if (uploads.length === 0) { %>
+      <p class="text-center text-muted">No uploads found.</p>
+    <% } else { %>
+      <% uploads.forEach(function(file) { %>
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <img src="<%= file.url %>" class="card-img-top" style="height: 200px; object-fit: cover;" alt="<%= file.filename %>" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title"><%= file.filename %></h5>
+              <p class="card-text">
+                <small class="text-muted">Uploaded at:<br><%= new Date(file.uploadedAt).toLocaleString() %></small>
+              </p>
+              <a href="<%= file.url %>" target="_blank" class="btn btn-primary mt-auto mb-2">Download</a>
+              <form action="/delete-upload/<%= file.filename %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?');">
+                <button type="submit" class="btn btn-danger btn-sm w-100">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toggleBtn = document.getElementById('darkModeToggle');
+  toggleBtn.addEventListener('click', function () {
+    document.body.classList.toggle('bg-dark');
+    document.body.classList.toggle('text-light');
+    document.body.classList.toggle('bg-light');
+    document.body.classList.toggle('text-dark');
+
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.toggle('navbar-light');
+    navbar.classList.toggle('bg-white');
+    navbar.classList.toggle('navbar-dark');
+    navbar.classList.toggle('bg-dark');
+
+    const icon = toggleBtn.querySelector('i');
+    if (document.body.classList.contains('bg-dark')) {
+      icon.classList.remove('bi-moon');
+      icon.classList.add('bi-brightness-high');
+      toggleBtn.querySelector('span').textContent = 'Light';
+    } else {
+      icon.classList.remove('bi-brightness-high');
+      icon.classList.add('bi-moon');
+      toggleBtn.querySelector('span').textContent = 'Dark';
+    }
+  });
+</script>
+
+</body>
+</html>

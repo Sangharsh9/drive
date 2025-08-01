@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drive Clone - Home</title>
+    <!-- Bootstrap CSS & Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Optional: your nav-link hover styling */
+      .nav-link {
+        transition: background-color 0.2s, color 0.2s;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+      }
+      .nav-link:hover {
+        background-color: #e9ecef;
+        color: #0d6efd;
+      }
+    </style>
+  </head>
+
+  <body class="bg-light text-dark">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="/home">
+          <img
+            src="https://cdn.prod.website-files.com/6737568a4ac417efeb387e5a/67448912e0f7ecdc890b0051_6703e3aac1d647d3ef458241_Google_Drive_Logo.svg"
+            width="32" height="32"
+            class="me-2"
+          >
+          <span class="fw-bold text-primary fs-5">Drive Clone</span>
+        </a>
+
+        <!-- Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible buttons + user -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-2">
+            <a href="/home" class="btn btn-outline-primary d-flex align-items-center gap-1">
+              <i class="bi bi-house-door-fill"></i>
+              <span class="d-none d-sm-inline">Home</span>
+            </a>
+            <a href="/my-uploads" class="btn btn-outline-secondary d-flex align-items-center gap-1">
+              <i class="bi bi-folder2-open"></i>
+              <span class="d-none d-sm-inline">My Uploads</span>
+            </a>
+            <button id="darkModeToggle" class="btn btn-outline-dark d-flex align-items-center gap-1">
+              <i class="bi bi-moon"></i>
+              <span class="d-none d-sm-inline">Dark</span>
+            </button>
+            <span class="navbar-text text-secondary d-none d-md-inline ms-lg-3">
+              <i class="bi bi-person-circle me-1"></i>
+              <%= user && user.name ? user.name : "User" %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="container py-5">
+      <!-- Upload Button triggers collapse -->
+      <button
+        class="btn btn-primary mb-4"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#uploadForm"
+        aria-expanded="false"
+        aria-controls="uploadForm"
+      >
+        <i class="bi bi-cloud-arrow-up-fill"></i> Upload File
+      </button>
+
+      <!-- Collapsible Upload Form -->
+      <div class="collapse" id="uploadForm">
+        <div class="card card-body">
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="fileInput" class="form-label">Select file</label>
+              <input class="form-control" type="file" id="fileInput" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-upload"></i> Upload Now
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap JS bundle -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    <script>
+      // Dark mode toggle
+      const btn = document.getElementById('darkModeToggle');
+      btn.addEventListener('click', () => {
+        document.body.classList.toggle('bg-dark');
+        document.body.classList.toggle('text-light');
+        document.body.classList.toggle('bg-light');
+        document.body.classList.toggle('text-dark');
+
+        const nav = document.querySelector('.navbar');
+        nav.classList.toggle('navbar-dark');
+        nav.classList.toggle('bg-dark');
+        nav.classList.toggle('navbar-light');
+        nav.classList.toggle('bg-white');
+
+        const icon = btn.querySelector('i');
+        const label = btn.querySelector('span');
+        if (document.body.classList.contains('bg-dark')) {
+          icon.classList.replace('bi-moon', 'bi-brightness-high');
+          label.textContent = 'Light';
+        } else {
+          icon.classList.replace('bi-brightness-high', 'bi-moon');
+          label.textContent = 'Dark';
+        }
+      });
+    </script>
+    
+  </body>
+</html>
